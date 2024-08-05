@@ -1,0 +1,169 @@
+
+ADMIN(TABLE)(actor)===================================>
+ att: id 
+	  first_name
+	  last_name
+	  username
+	  password
+opt:	 ---adds
+			+Facutlies
+			+Faculty deans
+		---view
+			+ exam status.
+			+report
+FACULTY(TABLE)===================================>
+att:
+	id
+	faculty_name
+	faculty_desc
+	faculty_location
+
+FACULTY_DEAN(TABLE)(actor):===================================>
+	att:
+		id
+		first_name
+		last_name
+		faculty_id
+		username
+		password
+
+opt:	---adds
+			+Departments
+			+Department heads
+		---view
+			+ exams along with their status.
+DEPARTMENT(TABLE)===================================>
+	att:
+		id
+		department_name
+		faculty_id
+
+DEPARTMENT HEAD(TABLE)(actor)===================================>
+	att:
+		id;
+		first_name
+		last_name
+		department_id;
+		username
+		password
+opt:	
+		---adds
+			+Student
+			+Teacher
+			+Course
+			+Invigilator
+		---view
+			+ exams along with their status.
+TEACHER(TABLE)(actor)===================================>
+	att:
+		id
+		first_name
+		last_name
+		department_id
+		username
+		password
+	opt:
+		---prepares
+			+Question
+		---activates exam on the exam time
+			+Exam
+		---view 
+			+Invigilation status
+STUDENT(TABLE)(actor)===================================>
+	att:
+		id
+		first
+		last_name
+		username
+		email
+		is_active
+		department_id
+	opt:
+		 ---takes
+			+Exam
+		---views
+			+Result
+COURSE(TABLE)===================================>
+att:	
+	id
+	course_code
+	course_name
+	department_id .......This is the department which gives the course.
+	teacher_id...........This is the teacher which teaches the course that may or not be from the same department the course is registered./common courses have d/t value for course.department_id and teacher.department_id
+
+EXAM(TABLE)===================================>
+att:
+	exam_id 
+	course_id
+	time_duration
+	total_questions
+
+QUESTION(TABLE)===================================>
+att:
+	quest_id
+	question_type#######later
+	question
+	first_answer
+	second_answer
+	third_answer
+	fourth_answer
+	fifth_answer
+	explanation
+	marks
+	exam_id
+
+RESULT(TABLE)===================================>
+att:
+	result_id
+	student_id
+	question_id
+	student_answer
+	right_answer
+
+
+
+
+			  	/*
+					        select * from tbl_question join exam where question.exam_id = ? exam.status =?(ON/OFF)
+					        exam table contains which course. which department, whcih faculty.
+					        each of of the table contains exam_id
+					        each question in the questions table have exam_id
+
+						After logon, a student should be asked to enter exam_code to be able to start the eximination.
+						Before Exam gets started it needs to be approved by examination committee....
+						OR 
+						A student can be provided with a list of exams to enroll, and take exam accordingly when the exam commences
+
+						SESSIONS SHOULD CAREFULLY BE MANAGED IN EVERY MODULES OF THE SYSTEM.
+						// set the default timezone to use.
+						date_default_timezone_set('UTC+3');
+						date_default_timezone_set('Africa/Nairobi');
+						check whether logins are hashed or not.
+
+						check proper form validation for each page.
+
+						SESSION name for each role has to be unique.
+
+						teachers Invigilations notification should be presented in the notification bell.
+
+						Knob input http://anthonyterrien.com/knob/ READ THIS TO CUSTOMIZE TIME COUNTER.
+						(form_advanced.html) in inspinia theme.(timecircles jquery used instead.)
+
+						upon completion of the examination, a new page("EXAM TIME OVER.") /other feasible option must be put.
+						Disable browsing on new tab while the question page is active.
+						teachers must have a unique identifier across the system other than id, email for example.(used by dpt head when assigninng a course...
+						a list of all teachers must be visible, however, the must be a search key for the teacher using the unique identifier.)
+						
+						http://localhost/Examination/teacher/index.php?page=dashboard&exam_code=3
+						exam_code has to be hashed not visible for security purpose, may be a user can randomly change it to another number 
+						and enter a question for a course that he doesn't own.
+						the exam.php page should only fetch the examination of the courses that only belong to the student fetching it(and it should also show
+						examinations which are eihter started or created.i.e completed examination questions shouldnt be displayed.).
+
+						When a student enrolls to an exam, the ALERADY ENROLLED message should consider to what TYPE(mid, final, or other) and EXAM_DATE of exam they are enrolled to.
+			  
+			  			============faculty department head selection should be automated using select box
+						=============faculty examination details should be aupdated.  
+						============system communication notification messages should be worked out.
+			  
+			  	*/

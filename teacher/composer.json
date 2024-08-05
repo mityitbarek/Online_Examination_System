@@ -1,0 +1,6 @@
+{
+    "require": {
+        "laminas/laminas-escaper": "^2.12",
+        "phpoffice/phpword": "^1.0"
+    }
+}
